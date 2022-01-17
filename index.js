@@ -64,6 +64,24 @@ app.post('/', (req,res)=>{
     res.json(members)
 })
 
+app.put('/:id',(req,res)=>{
+    const found = members.some(member => member.id === +req.params.id)
+
+    if(found){
+       members.forEach(member =>{
+           if(member.id === +req.params.id){
+               member.name = req.body.name ? req.body.name: member.name,
+               member.email = req.body.email ? req.body.email : member.email
+
+            res.json(member)
+           }
+       })
+    }else{
+        res.status(404).json({msg:`Miembro con el id ${req.params.id} no encontrado`})
+    }
+
+})
+
 
 app.listen("3000", () => {
   console.log("Server started on port 3000");
