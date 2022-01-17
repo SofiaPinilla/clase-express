@@ -3,6 +3,9 @@ const path = require('path');
 
 const app = express();
 
+// parseamos el body
+app.use(express.json())
+
 const members = [
     {
       id: 1,
@@ -30,6 +33,8 @@ const members = [
 // cargar archivos html de forma estática
 // app.use(express.static(path.join(__dirname, 'public')));
 
+
+
 app.get('/',(req,res)=>{
     res.json(members)
 })
@@ -44,6 +49,20 @@ app.get('/:id',(req,res)=>{
     }
 })
 
+app.post('/', (req,res)=>{
+    console.log(req.body)
+    const newMember = {
+        id: members.length + 1,
+        name: req.body.name,
+        email: req.body.email,
+        status: "active",
+    }
+    if(!req.body.name || !req.body.email){
+        res.status(400).json({msg:'Por favor rellene su nombre o correo'})
+    }
+    members.push(newMember)
+    res.json(members)
+})
 
 
 app.listen("3000", () => {
