@@ -82,6 +82,16 @@ app.put('/:id',(req,res)=>{
 
 })
 
+app.delete('/:id',(req,res)=>{
+    const found = members.some( member=> member.id === +req.params.id)
+
+    if(found){
+        res.json( members.filter(member=> member.id !== +req.params.id))
+    }else{
+        res.status(404).json({msg:`Miembro con el id ${req.params.id} no encontrado`})
+    }
+})
+
 
 app.listen("3000", () => {
   console.log("Server started on port 3000");
